@@ -18,7 +18,10 @@ $(document).ready( function () {
     $list.append($a);
 
     // add a listener to the new 'delete' class <a>
-    $a.click( function () {$(this).parent().remove();})
+    $a.click( function (event) {
+      event.stopPropagation();
+      $(this).siblings().fadeOut("slow", removeElement);
+    })
     // add a listener to the new <li>
     $list.on('click', function(event) { $(this).toggleClass('done');})
 
@@ -30,10 +33,14 @@ $(document).ready( function () {
   /**
   * Delete element when delete link clicked
   */
-  $(".delete").click( function () {
-    //console.log($(this));
-    //console.log($(this).parent());
+  const removeElement = function(event) {
     $(this).parent().remove();
+  }
+
+  // extra credit fadeout
+  $(".delete").click( function (event) {
+    event.stopPropagation();
+    $(this).siblings().fadeOut("slow", removeElement);
   })
 
   // event listener to add items
